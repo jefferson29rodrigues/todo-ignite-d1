@@ -74,6 +74,30 @@ app.post('/todos', checksExistsUserAccount, (request, response) => {
 
 app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
   // Complete aqui
+  const { title, deadline } = request.body;
+  const { user } = request;
+  const { id } = request.params;
+  console.log(user);
+  
+  const todoUser = user.todos.find((todo) => todo.id === id);
+
+  if (!todoUser) {
+    return response.json({error: "todo is not found!"});
+  }
+
+  console.log(todoUser)
+
+  user.todos.push({
+    ...todoUser,
+    title: title,
+    deadline: new Date(deadline),
+  });
+
+  console.log(user.todos);
+
+  //removed = myFish.splice(2, 1, "trumpet");
+  
+  return response.status(204).json(user.todos[user.todos.length - 1]);
 });
 
 app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
