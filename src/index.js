@@ -32,7 +32,7 @@ app.post('/users', (request, response) => {
   const exists = users.some((user) => user.username === username);
 
   if (exists) {
-    return response.status(400).json('User already exists');
+    return response.status(400).json({error: 'User already exists'});
   }
 
   users.push({
@@ -121,10 +121,8 @@ app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
   if (!todoUser) {
     return response.json({error: "todo is not found!"});
   }
-  console.log(user.todos)
 
   const newTodos = user.todos.filter((todo) => todo.id !== id);
-  console.log(newTodos)
   
   user.todos = newTodos;
   
