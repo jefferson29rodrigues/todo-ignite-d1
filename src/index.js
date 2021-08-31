@@ -95,12 +95,12 @@ app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
   // Complete aqui
   const { user } = request;
   const { id } = request.params;
-  const { done } = request.query;
+  const done = eval(request.query.done);
 
   const todoUser = user.todos.find((todo) => todo.id === id);
 
   if (!todoUser) {
-    return response.json({error: "todo is not found!"});
+    return response.status(404).json({error: "todo is not found!"});
   }
 
   user.todos.splice(user.todos.indexOf(todoUser), 1, {
@@ -108,7 +108,7 @@ app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
     done: done
   });
 
-  return response.status(201).json(user.todos[user.todos.length - 1]);
+  return response.status(200).json(user.todos[user.todos.length - 1]);
 });
 
 app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
@@ -119,14 +119,14 @@ app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
   const todoUser = user.todos.find((todo) => todo.id === id);
 
   if (!todoUser) {
-    return response.json({error: "todo is not found!"});
+    return response.status(404).json({error: "todo is not found!"});
   }
 
   const newTodos = user.todos.filter((todo) => todo.id !== id);
   
   user.todos = newTodos;
   
-  return response.json(user.todos);
+  return response.status(204).json(user.todos);
 });
 
 module.exports = app;
