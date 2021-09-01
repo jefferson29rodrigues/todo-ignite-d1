@@ -95,7 +95,6 @@ app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
   // Complete aqui
   const { user } = request;
   const { id } = request.params;
-  /* const done = eval(request.query.done); */
 
   const todoUser = user.todos.find((todo) => todo.id === id);
 
