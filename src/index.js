@@ -95,7 +95,7 @@ app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
   // Complete aqui
   const { user } = request;
   const { id } = request.params;
-  const done = eval(request.query.done);
+  /* const done = eval(request.query.done); */
 
   const todoUser = user.todos.find((todo) => todo.id === id);
 
@@ -105,7 +105,7 @@ app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
 
   user.todos.splice(user.todos.indexOf(todoUser), 1, {
     ...todoUser,
-    done: done
+    done: true
   });
 
   return response.status(200).json(user.todos[user.todos.length - 1]);
